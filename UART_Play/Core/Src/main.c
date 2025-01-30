@@ -109,7 +109,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, is_set ? GPIO_PIN_SET : GPIO_PIN_RESET);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, is_set ? GPIO_PIN_RESET : GPIO_PIN_SET);
 	  HAL_Delay(200);
   }
   /* USER CODE END 3 */
@@ -200,7 +200,7 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -238,15 +238,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	} else if(!strcmp(command_reset, rx_data)) {
 		is_set = false;
 	} else {
-		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, is_set ? GPIO_PIN_RESET : GPIO_PIN_SET);
-		  HAL_Delay(100);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, is_set ? GPIO_PIN_SET : GPIO_PIN_RESET);
 		  HAL_Delay(100);
 		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, is_set ? GPIO_PIN_RESET : GPIO_PIN_SET);
 		  HAL_Delay(100);
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, is_set ? GPIO_PIN_SET : GPIO_PIN_RESET);
+		  HAL_Delay(100);
 	}
 
-	memcpy(rx_data, '0', SIZE_DATA);
+	memset(rx_data, '0', SIZE_DATA);
 	HAL_UART_Receive_IT(&huart1, rx_data, SIZE_DATA);
 }
 /* USER CODE END 4 */
